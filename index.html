@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>URL Encoder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #f9f9f9;
+      color: #333;
+      gap: 1rem;
+    }
+
+    input, textarea, button {
+      font-size: 1rem;
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 90%;
+      max-width: 500px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      height: 100px;
+      resize: none;
+    }
+
+    button {
+      background: #0078ff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #005fcc;
+    }
+
+    .copy-message {
+      color: green;
+      font-size: 0.9rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>Hidden URL Redirect Generator</h2>
+  <input type="text" id="urlInput" placeholder="Paste your URL here..." autofocus>
+  <textarea id="encodedOutput" readonly placeholder="Encoded redirect URL will appear here..."></textarea>
+  <button id="copyBtn">Copy Encoded URL</button>
+  <div class="copy-message" id="copyMsg">Copied!</div>
+
+  <script>
+    const input = document.getElementById('urlInput');
+    const output = document.getElementById('encodedOutput');
+    const copyBtn = document.getElementById('copyBtn');
+    const copyMsg = document.getElementById('copyMsg');
+
+    input.addEventListener('input', () => {
+      const url = input.value.trim();
+      if (url) {
+        try {
+          const encoded = btoa(url);
+          const finalUrl = `${location.origin+location.pathname}/r?r=${encoded}`;
+          output.value = finalUrl;
+        } catch (err) {
+          output.value = "Invalid URL!";
+        }
+      } else {
+        output.value = "";
+      }
+      copyMsg.style.display = "none";
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      if (output.value) {
+        await navigator.clipboard.writeText(output.value);
+        copyMsg.style.display = "block";
+        setTimeout(() => copyMsg.style.display = "none", 1500);
+      }
+    });
+  </script>
+</body>
+</html>

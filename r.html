@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirecting...</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #fafafa;
+      color: #333;
+      font-size: 1.5em;
+    }
+  </style>
+</head>
+<body>
+  <div id="msg">Loading...</div>
+
+  <script>
+    // Get query string parameter 'r'
+    const params = new URLSearchParams(window.location.search);
+    const encodedUrl = params.get('r');
+
+    if (encodedUrl) {
+      try {
+        // Decode the base64 string
+        const decodedUrl = atob(encodedUrl.trim());
+        
+        // Optional: small delay for showing "Loading..."
+        setTimeout(() => {
+          window.location.href = decodedUrl;
+        }, 800);
+      } catch (err) {
+        document.getElementById('msg').textContent = "Invalid redirect link!";
+      }
+    } else {
+      document.getElementById('msg').textContent = "No redirect URL provided!";
+    }
+  </script>
+</body>
+</html>
