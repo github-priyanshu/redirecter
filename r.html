@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Redirecting...</title>
+  <title>Loading...</title>
   <style>
     body {
       display: flex;
@@ -31,7 +31,7 @@
         
         // Optional: small delay for showing "Loading..."
         setTimeout(() => {
-          window.location.href = decodedUrl;
+          location.replace(decodedUrl);
         }, 800);
       } catch (err) {
         document.getElementById('msg').textContent = "Invalid redirect link!";
