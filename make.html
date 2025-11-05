@@ -67,7 +67,7 @@
       if (url) {
         try {
           const encoded = btoa(url);
-          const finalUrl = `${location.origin+location.pathname}/r?r=${encoded}`;
+          const finalUrl = `${location.origin}/r.html?r=${encoded}`;
           output.value = finalUrl;
         } catch (err) {
           output.value = "Invalid URL!";

@@ -32,7 +32,7 @@
         // Optional: small delay for showing "Loading..."
         setTimeout(() => {
           location.replace(decodedUrl);
-        }, 800);
+        }, 10);
       } catch (err) {
         document.getElementById('msg').textContent = "Invalid redirect link!";
       }
