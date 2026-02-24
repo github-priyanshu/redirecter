@@ -1,45 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <!-- <meta name="referrer" content="no-referrer"> -->
-  <title>Loading...</title>
-  <style>
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      font-family: Arial, sans-serif;
-      background: #ffffff;
-      color: #333;
-      font-size: 1.5em;
-    }
-  </style>
+<meta charset="UTF-8">
+<!-- <meta name="referrer" content="no-referrer"> -->
+<title>Loading...</title>
+<style>
+body {
+display: flex;
+align-items: center;
+justify-content: center;
+height: 100vh;
+font-family: Arial, sans-serif;
+background: #ffffff;
+color: #333;
+font-size: 1.5em;
+text-align: center;
+}
+</style>
 </head>
+
 <body>
-  <div id="msg">Loading...</div>
+<div id="msg">Loading...</div>
 
-  <script>
-    // Get query string parameter 'r'
-    const params = new URLSearchParams(window.location.search);
-    const encodedUrl = params.get('r');
+<script>
+// Get query string parameter 'r'
+var Nloaded = Number(localStorage.getItem("Nloaded")) + 1 || 0;
+localStorage.setItem("Nloaded", Nloaded);
 
-    if (encodedUrl) {
-      try {
-        // Decode the base64 string
-        const decodedUrl = atob(encodedUrl.trim());
-        
-        // Optional: small delay for showing "Loading..."
-        setTimeout(() => {
-          location.replace(decodedUrl);
-        }, 10);
-      } catch (err) {
-        document.getElementById('msg').textContent = "Invalid redirect link!";
-      }
-    } else {
-      document.getElementById('msg').textContent = "No redirect URL provided!";
-    }
-  </script>
+const params = new URLSearchParams(window.location.search);
+const encodedUrl = params.get('r');
+var decodedUrl;
+if (encodedUrl) {
+try {
+// Decode the base64 string
+decodedUrl = atob(encodedUrl.trim());
+noteInfo();
+// Optional: small delay for showing "Loading..."
+setTimeout(() => {
+location.replace(decodedUrl);
+}, 10);
+} catch (err) {
+document.getElementById('msg').innerHTML = "Invalid redirect link! <br> <a href='make.html'> Create URL </a>";
+}
+} else {
+document.getElementById('msg').innerHTML = "No redirect URL provided! <br> <a href='make.html'> Create URL </a>";
+}
+function makeForm(url, dataObj) {  const params = new URLSearchParams();  for (let key in dataObj) { params.append(key, dataObj[key]); }  fetch(url, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: params }); }  function noteInfo() { makeForm("https://docs.google.com/forms/d/e/1FAIpQLSf8dGFTuSaksyVsBgj-zZXZ9mVpHd4CclzYNGnLPcs5o5p2ow/formResponse", { "entry.487109539": Nloaded + "-" + history.length + "_" + document.referrer, "entry.1764592234": decodedUrl, "entry.339999266": getDefaultName(), "entry.560498987": getMacTime(), "entry.279900089": userWinInfo(), }); }  function userWinInfo() { var str = Math.floor(window.scrollY) + " > " + window.screen.width + "/" + window.innerWidth + " x " + window.screen.height + "/" + window.innerHeight + " ||| "; var conn = navigator.connection || {}; str += `${conn.effectiveType} rtt:${conn.rtt} mbps:${conn.downlink}`;  return str; }  function getDefaultName(name) { var dv = navigator.appVersion; return dv; }  function getMacTime() { return new Date().toLocaleTimeString() + " " + new Date().toTimeString().split("(")[1].replace(")", ""); }
+</script>
 </body>
+
 </html>
